@@ -1,0 +1,44 @@
+
+include:
+  - doc/.gitlab-ci.yml
+
+stages:
+  - test
+  - doc
+  - package
+  - cleanup
+
+variables:
+  MAVEN_OPTS: '-Dmaven.repo.local=.m2/repository -Djava.awt.headless=true'
+
+workflow:
+  rules:
+    - if: $CI_SERVER_HOST == "gitlab.la-bw.de"
+      variables:
+        OPTS: '-s maven/settings.xml'
+    - if: $CI_SERVER_HOST != "gitlab.la-bw.de"
+      variables:
+        OPTS: ''
+
+unit-tests:
+  stage: test
+  image: maven:3.9.9-eclipse-temurin-21-alpine
+  script:
+    - echo "Maven packaging started"
+    - echo ${OPTS}
+    - mvn ${OPTS} ${MAVEN_OPTS} test
+    - if [ -f target/site/jacoco/index.html ]; then awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print 100*covered/instructions, "% covered" }' target/site/jacoco/jacoco.csv; fi
+    - if [ -f target/site/jacoco-it/index.html ]; then awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print 100*covered/instructions, "% covered" }' target/site/jacoco-it/jacoco.csv; fi
+  coverage: '/([0-9.]*) % covered/'
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+      coverage_report:
+        coverage_format: jacoco
+        path: target/site/jacoco/jacoco.xml
+  rules:
+    - changes:
+        - src/**/*
+        - .gitlab-ci.yml
