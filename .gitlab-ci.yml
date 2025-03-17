@@ -1,7 +1,3 @@
-
-include:
-  - doc/.gitlab-ci.yml
-
 stages:
   - test
   - doc
