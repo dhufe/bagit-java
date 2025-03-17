@@ -1,0 +1,10 @@
+<settings>
+    <proxies>
+        <proxy>
+            <active>true</active>
+            <protocol>http</protocol>
+            <host>fire.lvnbb.de</host>
+            <port>80</port>
+        </proxy>
+    </proxies>
+</settings>
