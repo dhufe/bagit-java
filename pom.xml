@@ -13,7 +13,26 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.jupiter.version>5.10.0</junit.jupiter.version>
+        <PROJECT_ID>211</PROJECT_ID>
+        <dimag.gitlab.endpoint>https://gitlab.la-bw.de/api/v4/projects/${PROJECT_ID}/packages/maven</dimag.gitlab.endpoint>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>gitlab-maven</id>
+            <url>${dimag.gitlab.endpoint}</url>
+        </repository>
+    </repositories>
+    <distributionManagement>
+        <repository>
+            <id>gitlab-maven</id>
+            <url>${dimag.gitlab.endpoint}</url>
+        </repository>
+        <snapshotRepository>
+            <id>gitlab-maven</id>
+            <url>${dimag.gitlab.endpoint}</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <build>
         <plugins>
