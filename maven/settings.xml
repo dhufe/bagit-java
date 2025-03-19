@@ -6,7 +6,7 @@
                 <httpHeaders>
                     <property>
                         <name>Private-Token</name>
-                        <value>${CI_JOB_TOKEN}</value>
+                        <value>YOUR-TOKEN-GOES-HERE</value>
                     </property>
                 </httpHeaders>
             </configuration>
