@@ -43,7 +43,7 @@ push-package:
   stage: package
   image: maven:3.9.9-eclipse-temurin-21-alpine
   before_script:
-    - sed -e "/YOUR-TOKEN-GOES-HERE/${CI_JOB_TOKEN}/" -i maven/settings.xml
+    - sed -e "s/YOUR-TOKEN-GOES-HERE/${CI_JOB_TOKEN}/g" -i maven/settings.xml
   script:
     - echo "Maven packaging started"
     - echo ${OPTS}
