@@ -1,5 +1,6 @@
 package gov.loc.repository.bagit.creator;
 
+import gov.loc.repository.bagit.annotation.Incubating;
 import gov.loc.repository.bagit.domain.Bag;
 import gov.loc.repository.bagit.domain.Manifest;
 import gov.loc.repository.bagit.domain.Metadata;
@@ -33,6 +34,49 @@ public class DimagBagCreator {
 
     }
 
+    /**
+     * Creates a basic(only required elements) .bagit bag in place.
+     * This creates files and directories, thus if an error is thrown during operation it may leave the filesystem
+     * in an unknown state of transition. Thus this is <b>not thread safe</b>
+     *
+     * @param root the directory that will become the base of the bag and where to start searching for content
+     * @param algorithms an collection of {@link SupportedAlgorithm} implementations
+     * @param includeHidden to include hidden files when generating the bagit files, like the manifests
+     *
+     * @throws NoSuchAlgorithmException if {@link MessageDigest} can't find the algorithm
+     * @throws IOException if there is a problem writing files or .bagit directory
+     *
+     * @return a {@link Bag} object representing the newly created bagit bag
+     */
+    @Incubating
+    public static Bag createDotBagit(final Path root, final Collection<SupportedAlgorithm> algorithms, final boolean includeHidden) throws NoSuchAlgorithmException, IOException{
+        return createBag(DOT_BAGIT_VERSION, root, algorithms, includeHidden, new Metadata());
+    }
+
+    /**
+     * Creates a basic(only required elements) .bagit bag in place.
+     * This creates files and directories, thus if an error is thrown during operation it may leave the filesystem
+     * in an unknown state of transition. Thus this is <b>not thread safe</b>
+     *
+     * @param root the directory that will become the base of the bag and where to start searching for content
+     * @param algorithms an collection of {@link SupportedAlgorithm} implementations
+     * @param includeHidden to include hidden files when generating the bagit files, like the manifests
+     * @param metadata the metadata to include when creating the bag. Payload-Oxum and Bagging-Date will be overwritten
+     *
+     * @throws NoSuchAlgorithmException if {@link MessageDigest} can't find the algorithm
+     * @throws IOException if there is a problem writing files or .bagit directory
+     *
+     * @return a {@link Bag} object representing the newly created bagit bag
+     */
+    @Incubating
+    public static Bag createDotBagit(final Path root, final Collection<SupportedAlgorithm> algorithms, final boolean includeHidden, final Metadata metadata) throws NoSuchAlgorithmException, IOException{
+        return createBag(DOT_BAGIT_VERSION, root, algorithms, includeHidden, metadata);
+    }
+
+    public static Bag bagInPlace(final Path root, final Collection<SupportedAlgorithm> algorithms, final boolean includeHidden) throws NoSuchAlgorithmException, IOException{
+        return createBag(LATEST_NON_DOT_BAGIT_VERSION, root, algorithms, includeHidden, new Metadata());
+    }
+
     private static Bag createBag(final Version version, final Path root, final Collection<SupportedAlgorithm> algorithms, final boolean includeHidden, final Metadata metadata) throws IOException, NoSuchAlgorithmException {
         final Bag bag = new Bag(version);
         logger.info(messages.getString("creating_bag"), bag.getVersion(), root);
@@ -48,8 +92,17 @@ public class DimagBagCreator {
         createMetadataFile(bag, metadata);
 
         createTagManifests(bag, algorithms, includeHidden);
-
+        createDIMAGContent(bag, root);
         return bag;
+    }
+
+    private static void createDIMAGContent ( final Bag bag, final Path root ) throws IOException {
+        if(bag.getVersion().isOlder(DOT_BAGIT_VERSION)) {
+            final Path dataDir = PathUtils.getBagitDir(bag).resolve("dimag");
+            System.out.println( dataDir.toAbsolutePath().toString() );
+            Files.createDirectory(dataDir);
+            logger.info(messages.getString("create_dimag_content"), dataDir);
+        }
     }
 
     private static void moveDataFilesIfNeeded(final Bag bag, final boolean includeHidden) throws IOException {
