@@ -38,7 +38,7 @@
         </repository>
 
         <snapshotRepository>
-            <id>gitlab-maven</id>
+            <id>gitlab-maven-dit</id>
             <url>${dimag.gitlab.endpoint}</url>
         </snapshotRepository>
     </distributionManagement>

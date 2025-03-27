@@ -6,7 +6,7 @@
                 <httpHeaders>
                     <property>
                         <name>Private-Token</name>
-                        <value>YOUR-TOKEN-GOES-HERE</value>
+                        <value>YOUR-TOKEN-GOES-HERE1</value>
                     </property>
                 </httpHeaders>
             </configuration>
@@ -17,7 +17,7 @@
                 <httpHeaders>
                     <property>
                         <name>Private-Token</name>
-                        <value>YOUR-TOKEN-GOES-HERE</value>
+                        <value>YOUR-TOKEN-GOES-HERE2</value>
                     </property>
                 </httpHeaders>
             </configuration>
