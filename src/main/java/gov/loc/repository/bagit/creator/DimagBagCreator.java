@@ -99,9 +99,12 @@ public class DimagBagCreator {
     private static void createDIMAGContent ( final Bag bag, final Path root ) throws IOException {
         if(bag.getVersion().isOlder(DOT_BAGIT_VERSION)) {
             final Path dataDir = PathUtils.getBagitDir(bag).resolve("dimag");
-            System.out.println( dataDir.toAbsolutePath().toString() );
             Files.createDirectory(dataDir);
             logger.info(messages.getString("create_dimag_content"), dataDir);
+            /*
+                Controlfile
+             */
+
         }
     }
 

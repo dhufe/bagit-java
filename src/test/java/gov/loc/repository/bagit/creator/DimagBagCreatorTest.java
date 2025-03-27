@@ -40,7 +40,6 @@ public class DimagBagCreatorTest extends TempFolderTest {
     Assertions.assertEquals(Version.LATEST_BAGIT_VERSION(), bag.getVersion());
 
     Path expectedDimagFolder = folder.resolve("dimag");
-    System.out.println( expectedDimagFolder );
     Assertions.assertTrue(Files.exists(expectedDimagFolder));
 
     Path expectedManifest = folder.resolve("manifest-md5.txt");
@@ -91,7 +90,6 @@ public class DimagBagCreatorTest extends TempFolderTest {
 
   private TestStructure createTestStructure() throws IOException{
     TestStructure structure = new TestStructure();
-    System.out.println(  System.getProperty("user.dir") );
     Path dataDir = createDirectory("data");
 
     Path file1 = createFile("file1.txt");
