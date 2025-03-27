@@ -14,20 +14,29 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.jupiter.version>5.10.0</junit.jupiter.version>
         <PROJECT_ID>211</PROJECT_ID>
-        <dimag.gitlab.endpoint>https://gitlab.la-bw.de/api/v4/projects/${PROJECT_ID}/packages/maven</dimag.gitlab.endpoint>
+        <dimag.gitlab.endpoint>https://gitlab.la-bw.de/api/v4/projects/${PROJECT_ID}/packages/maven
+        </dimag.gitlab.endpoint>
+        <dimag.gitlab.dit.endpoint>https://gitlab.la-bw.de/api/v4/projects/145/packages/maven
+        </dimag.gitlab.dit.endpoint>
     </properties>
 
     <repositories>
         <repository>
-            <id>gitlab-maven</id>
+            <id>gitlab-maven-bagit</id>
             <url>${dimag.gitlab.endpoint}</url>
+        </repository>
+        <repository>
+            <id>gitlab-maven-dit</id>
+            <url>${dimag.gitlab.dit.endpoint}</url>
         </repository>
     </repositories>
+
     <distributionManagement>
         <repository>
-            <id>gitlab-maven</id>
+            <id>gitlab-maven-bagit</id>
             <url>${dimag.gitlab.endpoint}</url>
         </repository>
+
         <snapshotRepository>
             <id>gitlab-maven</id>
             <url>${dimag.gitlab.endpoint}</url>
@@ -74,6 +83,11 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>de.dit.api</groupId>
+            <artifactId>dit-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
