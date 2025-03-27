@@ -1,7 +1,18 @@
 <settings>
     <servers>
         <server>
-            <id>gitlab-maven</id>
+            <id>gitlab-maven-bagit</id>
+            <configuration>
+                <httpHeaders>
+                    <property>
+                        <name>Private-Token</name>
+                        <value>YOUR-TOKEN-GOES-HERE</value>
+                    </property>
+                </httpHeaders>
+            </configuration>
+        </server>
+        <server>
+            <id>gitlab-maven-dit</id>
             <configuration>
                 <httpHeaders>
                     <property>
